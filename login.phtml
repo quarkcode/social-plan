@@ -1,0 +1,36 @@
+<?php 
+	$web = new web((object) array( 	"theme" => "admin", 
+									"level" => 0, 
+									"control" => "user" )); 
+?>
+														
+<?php if( !isset($_SESSION['user']) ) { ?>
+	
+   <form action="" method="post" id="loginForm">
+   	
+   		<p class="field">
+			<label>User</label>        	
+	       	<input type="text" name="user" id="user" placeholder="user" />
+       	</p>
+       	
+   		<p class="field">
+			<label>Password</label>        	
+	   		<input type="password" name="pass" id="pass" placeholder="password" />
+       	</p>
+       	
+       	<input type="hidden" name="webAction" id="login" value="login" />
+       	
+       	<button class="btn btn-default" type="submit">Sign in</button>
+
+    </form>
+    
+<?php } else { ?> 
+
+	You are logged in.
+
+	<?php 
+		header("Location: /"); 
+		exit();
+	?>
+
+<?php } ?>

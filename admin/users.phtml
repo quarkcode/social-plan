@@ -1,0 +1,45 @@
+<?php
+	$web = new web((object) array( 	"page_title" => "Users", 
+									"model" => "user", 
+									"control" => "user", 
+									"theme" => ((!$_POST)?'admin':'blank'), 
+									"level" => 100 )); 
+?>
+
+<script>
+	const module = "user";
+</script>
+
+<h1>
+	Users
+	<button class="btn-add">Add</button>
+</h1>
+
+<table>
+	
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Usuario</th>
+			<th>Email</th>
+			<th></th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<?php foreach( $users as $user ) { ?>
+			<tr>
+				<td><?php echo $user->id?></td>
+				<td><?php echo $user->user?></td>
+				<td><?php echo $user->email?></td>
+				<td>
+					<button class="btn-edit" data-id="<?php echo $user->id?>">Edit</button>
+					<button class="btn-del" data-id="<?php echo $user->id?>">Delete</button>
+				</td>
+			</tr>
+		<?php }?>
+	</tbody>
+
+</table>
+
+<?php $web->pagination( $web->user ); ?>

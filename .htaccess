@@ -1,0 +1,27 @@
+<FilesMatch "^\.ht">
+	Order allow,deny
+	Deny from all
+</FilesMatch>
+
+RewriteEngine on 
+
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteRule ^admin/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3&val3=$4&val4=$5&f=admin
+RewriteRule ^admin/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3&val3=$4&f=admin
+RewriteRule ^admin/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3&f=admin
+RewriteRule ^admin/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&f=admin
+RewriteRule ^admin(/|)$ application/run.php?page=index&f=admin
+
+RewriteRule ^$ application/run.php?page=index
+RewriteRule ^([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3&val3=$4&val4=$5
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3&val3=$4
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1&val1=$2&val2=$3
+RewriteRule ^([a-zA-Z0-9_-]+)(/|)$ application/run.php?page=$1
+
+ErrorDocument 401 /error/401
+ErrorDocument 403 /error/403
+ErrorDocument 404 /error/404
+ErrorDocument 500 /error/500

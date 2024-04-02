@@ -1,0 +1,8 @@
+order deny,allow
+deny from all
+allow from localhost
+
+<FilesMatch "run.php">
+Order allow,deny
+Allow from all
+</FilesMatch>

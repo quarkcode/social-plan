@@ -1,0 +1,29 @@
+<?php 
+	$web = new web((object) array(	"model" => "config", 
+									"control" => "config", 
+									"theme" => "blank", 
+									"level" => 100 )); 
+?>
+	
+<h2><?php echo @$config->name?></h2>
+
+<form id="webForm" enctype="multipart/form-data" method="post">
+	
+	<input type="hidden" id="id" name="id" value="<?php echo @$config->id?>" />
+
+	<p>
+		<label>Name</label>
+		<input type="text" id="name" name="name" value="<?php echo @$config->name?>" />
+	</p>
+	
+	<p>
+		<label>Value</label>
+		<textarea id="value" name="value"><?php echo @$config->value?></textarea>
+	</p>
+
+	<input type="hidden" id="webAction" name="webAction" value="<?php echo $web->webAction?>" />
+	<input type="hidden" id="webObject" name="webObject" value="config" />
+	
+	<button class="btn-submit" >Save</button>
+	
+</form>

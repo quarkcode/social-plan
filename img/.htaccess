@@ -1,0 +1,8 @@
+<FilesMatch "\.(php|php\.)(.+)(\w|\d)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
+<FilesMatch "\.(php([0-9]|s)?|s?p?html|cgi|pl|exe)$">
+Order Deny,Allow
+Deny from all
+</FilesMatch>

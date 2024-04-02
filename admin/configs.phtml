@@ -1,0 +1,43 @@
+<?php
+	$web = new web((object) array(	"page_title" => "Configuration", 
+									"model" => "config", 
+									"control" => "config", 
+									"theme" => ((!$_POST)?'admin':'blank'), 
+									"level" => 100 )); 
+?>
+	
+<script>
+	const module = "config";
+</script>
+
+<h1>
+	Configuractions
+	<button class="btn-add" >Add</button>
+</h1>
+
+<table>
+	
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Value</th>
+			<th></th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<?php foreach( $configs as $config ) { ?>
+			<tr>
+				<td><?php echo $config->name?></td>
+				<td><?php echo $config->value?></td>
+				<td>
+					<button class="btn-edit" data-id="<?php echo $config->id?>">Edit</button>
+					<button class="btn-del" data-id="<?php echo $config->id?>">Delete</button>
+				</td>
+			</tr>
+		<?php }?>
+	</tbody>
+
+</table>
+
+<?php $web->pagination( $web->config ); ?>

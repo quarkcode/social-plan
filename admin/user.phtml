@@ -1,0 +1,63 @@
+<? 
+	$web = new web((object) array( 	"model" => "user",
+									"control" => "user",
+									"theme" => "blank",
+									"level" => 100 )); 
+?>
+	
+<h2>User</h2>
+
+<form id="webForm" enctype="multipart/form-data" method="post">
+	
+	<input type="hidden" id="id" name="id" value="<?php echo $user->id?>" />
+
+	<p>
+		<label>Name</label>
+		<input type="text" id="name" name="name" value="<?php echo @$user->name?>" />
+	</p>
+	
+	<p>
+		<label>E-mail</label>
+		<input type="text" id="email" name="email" value="<?php echo @$user->email?>" />
+	</p>
+	
+	<p>
+		<label>User name</label>
+		<input type="text" id="user" name="user" value="<?php echo @$user->user?>" />
+	</p>
+
+	<p>
+		<label>Password</label>
+		<input type="password" id="pass" name="pass" value=""/>
+	</p>
+
+	<p>
+		<label>Active</label>
+		<input type="checkbox" id="active" <?php echo $web->INPUT_checked($user->active) ?> name="active" value="1"/>
+	</p>
+	
+	<p>
+		<label>Registration Date</label>
+		<input type="text" id="date_registration" name="date_registration" value="<?php echo @$user->date_registration?>" />
+	</p>
+	
+	<p>
+		<label>Level</label>
+		<select id="level" name="level" >
+			<option value="10" <?php echo $web->INPUT_selected($user->level, "10") ?>>Guest</option>
+			<option value="50" <?php echo $web->INPUT_selected($user->level, "50") ?>>User</option>
+			<option value="100" <?php echo $web->INPUT_selected($user->level, "100") ?>>Administrator</option>
+		</select>
+	</p>
+
+	<p>
+		<label>Comments</label>
+		<textarea rows="3" placeholder="Textarea" id="comments" name="comments"><?php echo @$user->comments?></textarea>
+	</p>
+
+	<input type="hidden" id="webAction" name="webAction" value="<?php echo $web->webAction?>" />
+	<input type="hidden" id="webObject" name="webObject" value="user" />
+	
+	<button class="btn-submit" >Save</button>
+
+</form>
