@@ -10,7 +10,7 @@
 		var $title = "";
 		var $meta_keywords = "";
 		var $meta_description = "";
-		var $page_title = "";
+		var $page_title = "Social Plan";
 		var $full_title = "";
 		var $theme = "default";
 		var $application_title = "default";
