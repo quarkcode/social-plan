@@ -65,13 +65,13 @@
 				if( $_SESSION['user']->id > 0 )	{
 										
 					if($this->level > $_SESSION['user']->level ) {
-						#header("Location: /");
-						exit(1);
+						header("Location: /");
+						exit(303);
 					}
 					
 				} else {
-					#header("Location: /");
-					exit(1);
+					header("Location: /");
+					exit(303);
 				}
 		   }
 		   
@@ -101,7 +101,7 @@
 			if($_SESSION['language']!=$this->language)
 				$this->language = $_SESSION['language'];
 						
-			$this->full_title = $this->page_title . ( ( $this->page_title != "" && $this->title != ""  ) ? " - " : "" ) . $this->title;
+			$this->full_title = $this->page_title . ( ( $this->page_title != "" && $settings->title != ""  ) ? " - " : "" ) . $settings->title;
 			
 			#GUARDO EL HEAD
 			$this->head = ob_get_contents();
