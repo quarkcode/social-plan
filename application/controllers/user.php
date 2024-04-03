@@ -23,13 +23,14 @@
 							
 							if($user->pass == $Lpass ) {
 								
+								$remoteIP = $_SERVER['REMOTE_ADDR'];
 								$diferenciaDias = ((((mktime(0, 0, 0, date("m")  , date("d"), date("Y")) - strtotime($user->date_last))/60)/60)/24);
 				
-								$this->db->execute("UPDATE  ".mysql_prefix."user SET  login_attempts=0 WHERE id=".$user->id);
+								$this->db->execute("UPDATE  ".mysql_prefix."user SET login_ip = '".$remoteIP."', login_attempts=0 WHERE id=".$user->id);
 								
 								$_SESSION[code] = true;
 								$_SESSION['user'] = $user;
-								$_SESSION['user']->pass = null;
+								unset($_SESSION['user']->pass);
 									
 							} else {
 			
