@@ -139,7 +139,14 @@
 				return false;
 			}
 		}
-		
+
+		public function layout($name,$theme = false)	{
+			
+			if(!$theme) $theme = $this->theme;
+			include RELPATH."themes/".$theme."/".$name.".phtml";
+			
+		}
+				
 		#TRANSLATE TEXT FUNCTION
 		function t( $IDtexto ) {
 			$string = "";
