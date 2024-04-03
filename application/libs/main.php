@@ -101,7 +101,7 @@
 			if($_SESSION['language']!=$this->language)
 				$this->language = $_SESSION['language'];
 						
-			$this->full_title = $this->page_title . ( ( $this->page_title != "" && $settings->title != ""  ) ? " - " : "" ) . $settings->title;
+			$this->full_title = ( ( $this->page_title != "" && $settings->title != ""  ) ? $settings->title . " - " : "" )  . $this->page_title;
 			
 			#GUARDO EL HEAD
 			$this->head = ob_get_contents();
