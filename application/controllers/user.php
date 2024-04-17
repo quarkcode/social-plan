@@ -178,7 +178,8 @@
 					$this->listDirection  =  ($user->webListDirection!="")?$user->webListDirection:"asc";
 				}
 
-				$this->pageIni = $webPageIni =  ($this->POST->webPageIni=="") ? 0 : $this->POST->webPageIni;
+				#$this->pageIni = $webPageIni =  ($this->POST->webPageIni=="") ? 0 : $this->POST->webPageIni;
+				$this->pageIni = $webPageIni =  ($_GET['val1']=="") ? 0 : $_GET['val1'];
 			
 				if( $this->user->db != NULL ){
 					$users = $this->user->query($webPageIni,$user);
