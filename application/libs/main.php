@@ -208,73 +208,6 @@
 			
 		}
 		
-		function pagination( $data, $tam_pagination = 6 ){
-			
-			$pagination = "";
-
-			$pages_tam = $data->rows_size;
-			$pages_ini = $this->pageIni ;
-			$pages_max = $data->rows_total;
-			
-			if(!isset($pages_ini)) $pages_ini = 0;	
-			else {
-				if($pages_ini < 0) $pages_ini = 0;
-				if($pages_ini >= $pages_max) $pages_ini = $pages_max - $pages_tam;
-			}
-		
-			if($pages_ini < 0 ) $pages_ini = 0;
-		
-			$pages = $pages_max / $pages_tam;
-			$pactual = $pages_ini / $pages_tam;
-			$this_pag = $pages_ini;
-		
-			$pagination .= "\n<ul id='webPagination'>\n";
-		
-			if($pactual != 0 ){
-				$pagination .= "<li class='previous'>&#x25C1;</li>\n";
-				if($pactual > ($tam_pagination-1)) {
-					$pagination .= "<li class='pag'>1</li>\n";
-					if($pactual > ($tam_pagination))  $pagination .= "<li>...</li>\n";
-				}
-			}
-		
-			if(ceil($pages)>1) {
-				$contp = 0;
-				for($i = 0 ; $i < $pages ; $i++) {
-					if($contp < ($tam_pagination+$pactual)){
-						if($i > ($pactual-$tam_pagination)){
-							if ($i == $pactual) {
-								if($i==0) 
-									$pagination .= "<li class='selected pag' id='pos".($i*$pages_tam)."' >".($i+1)."</li>\n";
-								else
-									$pagination .= "<li class='selected pag' id='pos".($i*$pages_tam)."' >".($i+1)."</li>\n";							
-							
-							} else {
-								$pagination .= "<li class='pag'>".($i+1)."</li>\n";
-							} 
-						}
-					}
-					$contp++;
-				}
-			}
-		
-			if(($pactual+1) != ceil($pages) ) {
-				if($pages_max > $pages_tam){
-					if($pactual < ( ($pages) - ($tam_pagination)  ))  {
-						if($pactual < ( ($pages) - ($tam_pagination+1)  ))  $pagination .= "<li>...</li>";
-						$pagination .= "\n	<li class='pag'>".ceil($pages)."</li>\n";
-					}
-					$pagination .= "<li class='next'>&#x25B7;</li>\n";
-				}
-			}
-		
-			$pagination .= ($pagination == "\n<ul id='webPagination'>\n" ) ?  "<li></li>\n" : "";
-		 	$pagination .= "</ul>";
-				  
-			print $pagination ;
-						
-		}
-		
 		function INPUT_checked($value){
 			if($value)
 				return ' checked="checked" ';
@@ -284,6 +217,74 @@
 			if($value==$option)
 				return ' selected="selected" ';
 		}
+		function pagination($data, $tam_pagination = 3) {
+			$pages_tam = $data->rows_size;
+			$pages_ini = $this->pageIni;
+			$pages_max = $data->rows_total;
+		
+			if (!isset($pages_ini)) $pages_ini = 0;
+			else {
+				if ($pages_ini < 0) $pages_ini = 0;
+				if ($pages_ini >= $pages_max) $pages_ini = $pages_max - $pages_tam;
+			}
+		
+			$pages = ceil($pages_max / $pages_tam);
+			$pactual = floor($pages_ini / $pages_tam);
+		
+			$pagination = '<div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">';
+			$pagination .= '    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">';
+			$pagination .= '        <div>';
+			$pagination .= '            <p class="text-sm text-gray-700">';
+			$pagination .= '                Showing <span class="font-medium">' . ($pages_ini + 1) . '</span> to <span class="font-medium">' . min($pages_ini + $pages_tam, $pages_max) . '</span> of <span class="font-medium">' . $pages_max . '</span> results';
+			$pagination .= '            </p>';
+			$pagination .= '        </div>';
+			$pagination .= '        <div>';
+			$pagination .= '            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">';
+		
+			if ($pactual > 0) {
+				$pagination .= '            <a href="/' . $data->web->page .'/'.($pages_ini - $pages_tam) . '" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">';
+				$pagination .= '                <span class="sr-only">Previous</span>';
+				$pagination .= '                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"/></svg>';
+				$pagination .= '            </a>';
+			}
+		
+			$start = max($pactual - $tam_pagination, 0);
+			$end = min($pactual + $tam_pagination + 1, $pages);
+		
+			if ($start > 0) {
+				$pagination .= '            <a href="/' . $data->web->page .'/0" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">1</a>';
+				if ($start > 1) {
+					$pagination .= '            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>';
+				}
+			}
+		
+			for ($i = $start; $i < $end; $i++) {
+				$class = ($i == $pactual) ? 'bg-indigo-600 text-white' : 'text-gray-900 hover:bg-gray-50';
+				$pagination .= '            <a href="/' . $data->web->page .'/'.($i * $pages_tam) . '" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold ' . $class . ' ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">' . ($i + 1) . '</a>';
+			}
+		
+			if ($end < $pages) {
+				if ($end < $pages - 1) {
+					$pagination .= '            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>';
+				}
+				$pagination .= '            <a href="/' . $data->web->page .'/'.(($pages - 1) * $pages_tam) . '" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">' . $pages . '</a>';
+			}
+		
+			if (($pactual + 1) < $pages) {
+				$pagination .= '            <a href="/' . $data->web->page .'/'.($pages_ini + $pages_tam) . '" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">';
+				$pagination .= '                <span class="sr-only">Next</span>';
+				$pagination .= '                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"/></svg>';
+				$pagination .= '            </a>';
+			}
+		
+			$pagination .= '            </nav>';
+			$pagination .= '        </div>';
+			$pagination .= '    </div>';
+			$pagination .= '</div>';
+		
+			print $pagination;
+		}
+		
 		
 		/* 
 		 * JAVASCRIPT FUNCTIONS
