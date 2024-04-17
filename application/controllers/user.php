@@ -2,13 +2,14 @@
 	global $user;
 	global $users; 
 	
-	if(isset($this->POST->webAction) || $this->control == "user"){
-		
+	if(isset($this->POST) || $this->control == "user"){
+
+		if(isset($_POST['id']))
+			$this->POST->webAction =  ($this->POST->id > 0 ) ? "update" : "save";
 
 		switch($this->POST->webAction){
 			
 			case 'login':
-				
 
 				if($this->POST) {
 				
