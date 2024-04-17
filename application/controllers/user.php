@@ -4,8 +4,7 @@
 	
 	if(isset($this->POST) || $this->control == "user"){
 
-		if(isset($_POST['id']))
-			$this->POST->webAction =  ($this->POST->id > 0 ) ? "update" : "save";
+		#if(isset($_POST['id'])) $this->POST->webAction =  ($this->POST->id > 0 ) ? "update" : "save";
 
 		switch($this->POST->webAction){
 			

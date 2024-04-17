@@ -1,15 +1,22 @@
 <?php
-$web = new web((object) array(
-	"level" => "100",
-	"title" => "Users",
-	"model" => "user",
-	"control" => "user"
-));
+
+	if( $_POST['webAction'] == "" ) {
+		$_POST['webAction'] = "get";
+		$_POST['id'] = $_GET['val1'];
+	}
+
+	$web = new web((object) array(
+		"level" => "100",
+		"title" => "Users",
+		"model" => "user",
+		"control" => "user"
+	));
+
 ?>
 
 <div class="p-6 bg-white border-b border-gray-200 mx-auto max-w-screen-xl">
 
-	<? 
+	<?php 
 		if(isset($web->user->error)) {
 			foreach($web->user->error as $error) {
 				echo '<div class="mb-10 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"><strong class="font-bold">Error:</strong><span class="block">'.$web->user->error_messages[$error].'</span></div>';
@@ -17,7 +24,7 @@ $web = new web((object) array(
 		} 
 	?>
 
-	<form action="/user" enctype="multipart/form-data" method="post" id="main-form" autocomplete="off">
+	<form action="/user/<?=$user->id?>" enctype="multipart/form-data" method="post" id="main-form" autocomplete="off">
 
 		<div class="space-y-12">
 			<div class="border-b border-gray-900/10 pb-12">
@@ -74,7 +81,7 @@ $web = new web((object) array(
 							</div>
 						</div>
 					</div>
-
+<!--
 					<div class="col-span-full">
 						<label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Foto</label>
 						<div class="mt-2 flex items-center gap-x-3">
@@ -84,7 +91,7 @@ $web = new web((object) array(
 							<button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
 						</div>
 					</div>
-
+-->
 				</div>
 			</div>
 
@@ -92,6 +99,7 @@ $web = new web((object) array(
 
 		<input type="hidden" id="id" name="id" value="<?=$user->id?>" />
 		<input type="hidden" id="webObject" name="webObject" value="user" />
+		<input type="hidden" id="webAction" name="webAction" value="<?php echo $web->webAction?>" />
 
 		<div class="mt-6 flex items-center justify-end gap-x-6">
 			<a href="/users" class="text-sm font-semibold leading-6 text-gray-900">Cancel</a>
